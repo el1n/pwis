@@ -1,0 +1,55 @@
+####################################################################################################
+	alias genpasswd='perl -e '\''
+	#!/usr/bin/perl
+
+	sub do_genpasswd($)
+	{
+		my $string = shift;
+
+		if(defined($des)){
+			(my $salt = "\0" x 8) =~s/./(0..9,q{a}..q{z},q{A}..q{Z},q{.},q{\/})[int(rand(64))]/ego;
+			$string = crypt($string,$salt);
+		}elsif(defined($md5)){
+			(my $salt = "\0" x 8) =~s/./(0..9,q{a}..q{z},q{A}..q{Z},q{.},q{\/})[int(rand(64))]/ego;
+			$string = crypt($string,q{$1$}.$salt);
+		}else{
+			if(length($string) < 8){
+				$string = pack(q{A8},$string);
+			}
+
+			my @char;
+			my $token = 8 / length($string);
+			for(my $i = 0; $#char < 7; ++$i){
+				if($#char + 1 < int($token * $i)){
+					push(@char,substr($string,$i - 1,1));
+				}
+			}
+
+			my @salt = (0,0);
+			if((defined($new) && defined($old)) || (!defined($new) && !defined($old))){
+				for(my $i = 0;$i < length($ENV{HOSTNAME}); ++$i){
+					$salt[$i & 1] += ord(substr($ENV{HOSTNAME},$i,1));
+				}
+				$salt[0] = (0..9,q{a}..q{z},q{A}..q{Z},q{+},q{/})[$salt[0] % 64];
+				$salt[1] = (0..9,q{a}..q{z},q{A}..q{Z},q{+},q{/})[$salt[1] % 64];
+			}elsif(defined($old)){
+				@salt = ($char[0],$char[7]);
+			}
+			$string = substr(crypt(join(q{},@char),join(q{},@salt)),-10);
+		}
+		printf("%s\n",$string);
+	}
+
+	if($#ARGV != -1){
+		map{
+			do_genpasswd($_);
+		}@ARGV;
+	}else{
+		while(<STDIN>){
+			do_genpasswd(chomp($_));
+		}
+	}
+	'\'' -s --'
+	alias genicpasswd='genpasswd -old --'
+	alias makedespasswd='genpasswd -des --'
+	alias makemd5passwd='genpasswd -md5 --'
