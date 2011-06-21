@@ -1,0 +1,35 @@
+#!/usr/bin/perl -l -s --
+
+sub do_main()
+{
+	if($g == 3 || !defined($g)){
+	}elsif($g == 2){
+	}elsif($g == 1){
+		my @k;
+		my @s;
+
+		if(length($_) < 8){
+			$_ = pack("A8",$_);
+		}
+
+		my $j = 8 / length($_);
+		for(my $i = 0; $#k < 7; ++$i){
+			if($#k + 1 < int($j * $i)){
+				push(@k,substr($_,$i - 1,1));
+			}
+		}
+		$_ = substr(crypt(join(undef,@k),$k[0].$k[7]),-10);
+	}else{
+		$_ = sprintf("E%d Unknown generating option %s. : -g=<1,2,3>",$g);
+	}
+	print;
+}
+
+if($#ARGV == -1){
+}else{
+	foreach(@ARGV){
+		do_main();
+	}
+}
+
+0
