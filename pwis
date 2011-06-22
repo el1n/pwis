@@ -51,7 +51,7 @@ sub do_pwis()
 			}
 
 			$_ = join(undef,@k);
-			for my $i (0..2){
+			for(my $i = 0; $i < 3 || /[^0-9A-Za-z]/o; ++$i){
 				for my $i (0..(length($_) - 1)){
 					my $c = vec($_,$i,8) & 0x7F;
 					my $p = int(length($map) / 128 * ($c % 128)) + $i;
@@ -61,7 +61,7 @@ sub do_pwis()
 					}
 					vec($_,$i,8) = $c;
 				}
-				$_ = substr(crypt(substr($_,2,10),join(undef,(0..9,a..z,A..Z,qw(+ /))[vec($_,0,8) % 64,vec($_,1,8) % 64])),2,10);
+				$_ = substr(crypt(substr($_,2,10),join(undef,(0..9,a..z,A..Z,qw(. /))[vec($_,0,8) % 64,vec($_,1,8) % 64])),2,10);
 			}
 		}
 	}elsif($g == 2){
