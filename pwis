@@ -112,20 +112,18 @@ sub do_pwis()
 	}else{
 		$_ = sprintf("E%d Unknown generating option %s. : -g=<1,2,3>",__LINE__,$g);
 	}
-	print;
-
-	return();
+	return($_);
 }
 
 if(defined(caller(0))){
 }elsif($#ARGV != -1){
 	foreach(@ARGV){
-		do_pwis();
+		print do_pwis();
 	}
 }else{
 	while(<STDIN>){
 		chomp();
-		do_pwis();
+		print do_pwis();
 	}
 }
 
