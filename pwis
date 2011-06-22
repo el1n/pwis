@@ -35,28 +35,32 @@ sub do_main()
 		){
 		}else{
 			my @k;
-			my @s = (0,0);
-	
-			if(length($_) < 8){
-				$_ = pack("A8",$_);
+
+			if(length($_) < 10){
+				$_ = pack("A10",$_);
 			}
 
-			my $j = 8 / length($_);
-			for(my $i = 0; $#k < 7; ++$i){
+			my $j = 10 / length($_);
+			for(my $i = 0; $#k < 9; ++$i){
 				if($#k + 1 < int($j * $i)){
 					push(@k,substr($_,$i - 1,1));
 				}
 			}
 
-			map{
-				my $c = vec($_,0,8) & 0x7F;
-				my $i = length($map) / 128 * ($c % 128);
-				for(0..7){
-					$c = vec($map,$i % length($map),8) & 0x7F;
-					$i += $c % 32;
+			$_ = join(undef,@k);
+			for my $i (0..2){
+				for my $i (0..(length($_) - 1)){
+					my $c = vec($_,$i,8) & 0x7F;
+					my $p = int(length($map) / 128 * ($c % 128)) + $i;
+					for(0..7){
+						$c ^= vec($map,$p % length($map),8) & 0x7F;
+						$p += $c % 32;
+					}
+					vec($_,$i,8) = $c;
 				}
-				vec($_,0,8) = $c;
-			}@k;
+				$_ = substr(crypt(substr($_,2,10),join(undef,(0..9,a..z,A..Z,qw(+ /))[vec($_,0,8) % 64,vec($_,1,8) % 64])),0,10);
+			}
+			$_ = substr($_,2,10);
 		}
 	}elsif($g == 2){
 		my @k;
