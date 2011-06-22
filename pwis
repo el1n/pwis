@@ -3,6 +3,61 @@
 sub do_main()
 {
 	if($g == 3 || !defined($g)){
+		if(
+			&{sub(){
+				if(length($map)){
+					return(0);
+				}elsif(defined($seed)){
+					$map = $seed;
+					return(0);
+				}elsif(length($ENV{SEED})){
+					$map = $ENV{SEED};
+					return(0);
+				}elsif(length($ENV{HOSTNAME})){
+					$map = $ENV{HOSTNAME};
+					return(0);
+				}else{
+				}
+
+				my $file = join("/",$ENV{HOME},".pwis.bin");
+				if(!open(FH,$file)){
+					return(1);
+				}elsif(!flock(FH,5)){
+					close(FH);
+					return(1);
+				}elsif(!read(FH,$map,1024 * 4,0)){
+					close(FH);
+					return(1);
+				}else{
+					return(0);
+				}
+			}}
+		){
+		}else{
+			my @k;
+			my @s = (0,0);
+	
+			if(length($_) < 8){
+				$_ = pack("A8",$_);
+			}
+
+			my $j = 8 / length($_);
+			for(my $i = 0; $#k < 7; ++$i){
+				if($#k + 1 < int($j * $i)){
+					push(@k,substr($_,$i - 1,1));
+				}
+			}
+
+			map{
+				my $c = vec($_,0,8) & 0x7F;
+				my $i = length($map) / 128 * ($c % 128);
+				for(0..7){
+					$c = vec($map,$i % length($map),8) & 0x7F;
+					$i += $c % 32;
+				}
+				vec($_,0,8) = $c;
+			}@k;
+		}
 	}elsif($g == 2){
 		my @k;
 		my @s = (0,0);
@@ -51,6 +106,8 @@ sub do_main()
 		$_ = sprintf("E%d Unknown generating option %s. : -g=<1,2,3>",__LINE__,$g);
 	}
 	print;
+
+	return();
 }
 
 if($#ARGV == -1){
