@@ -7,8 +7,8 @@ sub do_main()
 			&{sub(){
 				if(length($map)){
 					return(0);
-				}elsif(defined($seed)){
-					$map = $seed;
+				}elsif(defined($S)){
+					$map = $S;
 					return(0);
 				}elsif(length($ENV{SEED})){
 					$map = $ENV{SEED};
@@ -20,6 +20,9 @@ sub do_main()
 				}
 
 				my $file = join("/",$ENV{HOME},".pwis.bin");
+				if(defined($K)){
+					$file = $K;
+				}
 				if(!open(FH,$file)){
 					return(1);
 				}elsif(!flock(FH,5)){
@@ -77,8 +80,8 @@ sub do_main()
 			}
 		}
 
-		if(defined($seed)){
-			push(@s,$seed);
+		if(defined($S)){
+			push(@s,$S);
 		}elsif(length($ENV{SEED})){
 			push(@s,$ENV{SEED});
 		}elsif(length($ENV{HOSTNAME})){
