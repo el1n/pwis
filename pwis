@@ -56,12 +56,14 @@ sub do_pwis()
 					my $c = vec($_,$i,8) & 0x7F;
 					my $p = int(length($map) / 128 * ($c % 128)) + $i;
 					for(0..7){
-						$c ^= vec($map,$p % length($map),8) & 0x7F;
+						if(($c ^= vec($map,$p % length($map),8) & 0x7F) == 0){
+							$c = vec($map,$p % length($map),8) & 0x7F;
+						}
 						$p += $c % 32;
 					}
 					vec($_,$i,8) = $c;
 				}
-				$_ = substr(crypt(substr($_,2,10),join(undef,(0..9,a..z,A..Z,qw(. /))[vec($_,0,8) % 64,vec($_,1,8) % 64])),2,10);
+				$_ = substr(crypt(substr($_,2,10),join(undef,(qw(. /),0..9,A..Z,a..z)[vec($_,0,8) % 64,vec($_,1,8) % 64])),2,10);
 			}
 		}
 	}elsif($g == 2){
