@@ -1,6 +1,6 @@
 #!/usr/bin/perl -l -s --
 
-sub do_main()
+sub do_pwis()
 {
 	if($g == 3 || !defined($g)){
 		if(
@@ -117,15 +117,16 @@ sub do_main()
 	return();
 }
 
-if($#ARGV == -1){
-	while(<STDIN>){
-		chomp();
-		do_main();
+if(defined(caller(0))){
+}elsif($#ARGV != -1){
+	foreach(@ARGV){
+		do_pwis();
 	}
 }else{
-	foreach(@ARGV){
-		do_main();
+	while(<STDIN>){
+		chomp();
+		do_pwis();
 	}
 }
 
-0
+1
