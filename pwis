@@ -61,9 +61,8 @@ sub do_pwis()
 					}
 					vec($_,$i,8) = $c;
 				}
-				$_ = substr(crypt(substr($_,2,10),join(undef,(0..9,a..z,A..Z,qw(+ /))[vec($_,0,8) % 64,vec($_,1,8) % 64])),0,10);
+				$_ = substr(crypt(substr($_,2,10),join(undef,(0..9,a..z,A..Z,qw(+ /))[vec($_,0,8) % 64,vec($_,1,8) % 64])),2,10);
 			}
-			$_ = substr($_,2,10);
 		}
 	}elsif($g == 2){
 		my @k;
