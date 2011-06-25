@@ -38,14 +38,14 @@ def do_pwis(k,g = 3):
 			k_ = []
 
 			k = k.ljust(10," ")
-			j = 10 / len(k)
+			j = 10.0 / len(k)
 			for i in range(len(k)):
 				if len(k_) < int(j * (i + 1)):
 					k_.append(k[i])
 
 			k = "".join(k_)
 			l = 0
-			while l < 3:
+			while l < 3 or re.search('[^0-9A-Za-z]',k):
 				for i in range(len(k)):
 					c = ord(k[i]) & 0x7F
 					p = int(float(len(map)) / 128 * (c % 128)) + i
