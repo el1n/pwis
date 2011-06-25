@@ -67,7 +67,7 @@ def do_pwis(k,g = 3):
 	return(k)
 
 if len(sys.argv) > 1:
-	for k in sys.argv:
+	for k in sys.argv[1:]:
 		print do_pwis(k)
 else:
 	while 1:
