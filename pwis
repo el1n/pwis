@@ -13,9 +13,6 @@ sub do_pwis()
 				}elsif(length($ENV{SEED})){
 					$map = $ENV{SEED};
 					return(0);
-				}elsif(length($ENV{HOSTNAME})){
-					$map = $ENV{HOSTNAME};
-					return(0);
 				}else{
 				}
 
