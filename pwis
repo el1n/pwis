@@ -31,9 +31,8 @@ sub do_pwis()
 					close(FH);
 					return(0);
 				}
-			}}
+			}} == 0
 		){
-		}else{
 			my @k;
 
 			if(length($_) < 10){
@@ -62,6 +61,7 @@ sub do_pwis()
 				}
 				$_ = substr(crypt(substr($_,2,10),join(undef,(qw(. /),0..9,A..Z,a..z)[vec($_,0,8) % 64,vec($_,1,8) % 64])),2,10);
 			}
+		}else{
 		}
 	}elsif($g == 2){
 		my @k;
