@@ -28,6 +28,7 @@ sub do_pwis()
 					close(FH);
 					return(1);
 				}else{
+					close(FH);
 					return(0);
 				}
 			}}
