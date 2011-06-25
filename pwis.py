@@ -54,9 +54,9 @@ def do_pwis(k,g = 3):
 						if c == 0:
 							c = ord(map[p % len(map)]) & 0x7F
 						p += c % 32
-					m = re.search('^(.{%d}).(.*)$' % (i),k)
-					k = m.group(1) + chr(c) + m.group(2)
+					k = k[:-len(k) + i] + chr(c) + k[i + 1:len(k)] # purintai de-su ie-i ^o^
 				k = crypt.crypt(k[2:10],"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"[ord(k[0]) % 64] + "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"[ord(k[1]) % 64])[2:12]
+
 				l += 1
 	elif g == 2:
 		pass
