@@ -37,7 +37,7 @@ def do_pwis(k,g = 3)
 
 			k = k_.join()
 			l = 0
-			while (l += 1) < 4
+			while (l += 1) < 4 || /[^0-9A-Za-z]/ =~ k
 				for i in 0..(k.length() - 1)
 					c = k[i] & 0x7F
 					p = Integer(Float($map.length()) / 128 * (c % 128)) + i
