@@ -47,7 +47,7 @@ sub do_pwis()
 			}
 
 			$_ = join(undef,@k);
-			for(my $i = 0; $i < 3 || /[^0-9A-Za-z]/o; ++$i){
+			for(my $i = 0; $i < 3 || /[^0-9A-Za-z]/o || /^[A-Za-z]+$/o || /^[0-9]+$/o; ++$i){
 				for my $i (0..(length($_) - 1)){
 					my $c = vec($_,$i,8) & 0x7F;
 					my $p = int(length($map) / 128 * ($c % 128)) + $i;
