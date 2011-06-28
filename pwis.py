@@ -45,7 +45,7 @@ def do_pwis(k,g = 3):
 
 			k = "".join(k_)
 			l = 0
-			while l < 3 or re.search('[^0-9A-Za-z]',k):
+			while l < 3 or re.search('[^0-9A-Za-z]',k) or re.search('^[A-Za-z]+$',k) or re.search('^[0-9]+$',k):
 				for i in range(len(k)):
 					c = ord(k[i]) & 0x7F
 					p = int(float(len(map)) / 128 * (c % 128)) + i
