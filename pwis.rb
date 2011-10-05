@@ -9,7 +9,7 @@ def do_pwis(k,g = 3)
 				return(0)
 			end
 
-			file = [ENV["HOME"],".pwis.bin"].join("/")
+			file = [ENV["HOME"],".pwis.seed"].join("/")
 			if !fh = open(file)
 				return(1)
 			elsif !fh.flock(File::LOCK_SH|File::LOCK_NB)

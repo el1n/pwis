@@ -15,7 +15,7 @@ sub do_pwis()
 					return(0);
 				}
 
-				my $file = join("/",$ENV{HOME},".pwis.bin");
+				my $file = join("/",$ENV{HOME},".pwis.seed");
 				if(defined($K)){
 					$file = $K;
 				}

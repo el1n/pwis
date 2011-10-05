@@ -20,7 +20,7 @@ def do_pwis(k,g = 3):
 					map = os.getenv("SEED")
 					return(0)
 
-			file = "/".join((os.getenv("HOME"),".pwis.bin"))
+			file = "/".join((os.getenv("HOME"),".pwis.seed"))
 			fh = open(file)
 			if fh == None:
 				return(1)
